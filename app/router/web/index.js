@@ -3,7 +3,7 @@ const route = express.Router();
 
 
 // My controllers.
-const { HomePage } = require('../../controllers/web/homePage');
+const { HomePage } = require('./../../controller/web/homePage');
 
 
 route.get('/',HomePage);

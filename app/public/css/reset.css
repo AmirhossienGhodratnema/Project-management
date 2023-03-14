@@ -90,6 +90,7 @@ video {
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
+    font-family: Yekan, sans-serif;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -132,4 +133,15 @@ q:after {
 table {
     border-collapse: collapse;
     border-spacing: 0;
+}
+
+@font-face {
+	font-family: 'Yekan';
+	src:	url('./../fonts/Yekan.ttf'); /* IE9 Compat Modes */
+	src:	url('./../fonts/Yekan.eot')  /* IE6-IE8 */
+			url('./../fonts/Yekan.eot');/* Modern Browsers */
+	font-weight: normal;
+	font-style: normal;
+	text-rendering: optimizeLegibility;
+	font-display: auto;
 }

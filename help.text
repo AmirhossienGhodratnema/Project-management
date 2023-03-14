@@ -1,0 +1,52 @@
+Project Manager:
+    1-Authorization
+        Login
+        Register
+        Password forgot
+    2-Make teams
+        Create teams
+        Add user to teams
+        Set name and description for teams
+        Remove user from teams
+        Edit team details
+    3-User
+        Profile
+        Skils
+        Create project
+        Create team
+    4-Skils
+        Create - edit - remove - get title for skill
+    5-Projects
+        Create project
+            Title-text-image-team-owner-tags-category
+
+
+----------------------------------------------------------
+
+
+Database:
+    1-Users
+        firstName: str
+        lastName: str
+        userName: str
+        phone:str
+        password: str
+        email: str
+        skills: []
+        teamID: []
+        row: [user, admin, teamleader]
+    2-Project
+        title
+        text
+        image
+        tags: []
+        owner: user
+        team: teamID
+        private: boolean
+        show: boolean
+    3-Team
+        title    
+        text
+        users
+        owner
+    
