@@ -1,20 +1,16 @@
 const cookieParser = require('cookie-parser');
 
 
-
-
 // My require
-// const { route: ApiRoute } = require('./app/router/api/index');
 const { route: ApiRoute } = require('./router/api/index');
-const { route: WebRoute } = require('./router/web/index');
 const { errorHandler, notFoundError } = require('./errors/errorHandlers');
-
-
+const { AllRoutes } = require('./router/web/router');
 
 module.exports = class Application {
 
-    #express = require('express');
-    #app = this.#express();
+    #express = require('express');    // Require express private.
+    #app = this.#express();    // Get app in express and private.
+
     constructor(PORT, DB_URL) {
         this.configDatabase(DB_URL);    // Configuration DB.
         this.confiApplication();    // Configuration application.
@@ -27,24 +23,15 @@ module.exports = class Application {
     confiApplication() {
         const path = require('path');
 
-
-   
-
-
         // Opitons config.
         this.#app.use(this.#express.json())    // Json body-parser setting.
         this.#app.use(this.#express.urlencoded({ extended: true }));    // urlencoded body-parser setting.
         this.#app.use(this.#express.static(path.join(__dirname, './public')));    // Set static files.
         this.#app.use(cookieParser(process.env.SECRET_KEY_COOKIE_PARSER));    // Set cookie-parser and secret-key. 
 
-
         // View engine config. 
         this.#app.set('view engine', 'ejs');    // Set view engine,
         this.#app.set('views', path.join(__dirname, 'views'));    // Set dir view file.
-
-
-        // // Options
-
     };
 
     // Create server
@@ -60,13 +47,17 @@ module.exports = class Application {
         mongoose.connect(DB_URL, console.log(`Connect db successfull to: ${process.env.DB_CONNECT}...`));    // Connect to mongodb.
     };
 
+
+    // Create route to web and api.
     createRoute() {
         // Router
         this.#app.use(ApiRoute);    // Set api route.
-        this.#app.use(WebRoute);    // Set web route.
+        this.#app.use(AllRoutes);    // Set web route.
 
     };
 
+
+    // Error handler full.
     errorHandler() {
         this.#app.use(notFoundError)    // Not found error (404) handler.
         this.#app.use(errorHandler)    // Errorhandler all errors.
