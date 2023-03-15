@@ -1,0 +1,58 @@
+Project Manager:
+    1-Authorization
+        Login
+        Register
+        ResetPassword
+    2-teams
+        Create teams
+        Invite user to teams
+        Update Team
+        Remove user from teams
+    3-User
+        Profile actions
+            getProfile - edtiProfile
+        Skills
+            addSkill - editSkill 
+        Invite 
+            Accept - Reject
+
+    5-Projects
+        Create project
+            Title-text-image-team-owner-tags-category
+        getProject
+        getProjectById
+        getTeamProject
+        getUserProject
+        userProjecs
+        editProject
+        remove
+
+----------------------------------------------------------
+
+
+Database:
+    1-Users
+        firstName: str
+        lastName: str
+        userName: str
+        phone:str
+        password: str
+        email: str
+        skills: []
+        teamID: []
+        row: [user, admin, teamleader]
+    2-Project
+        title
+        text
+        image
+        tags: []
+        owner: user
+        team: teamID
+        private: boolean
+        show: boolean
+    3-Team
+        title    
+        text
+        users
+        owner
+    
