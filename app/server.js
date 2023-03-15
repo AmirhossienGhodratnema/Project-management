@@ -50,10 +50,15 @@ module.exports = class Application {
 
     // Create route to web and api.
     createRoute() {
-        // Router
         this.#app.use(ApiRoute);    // Set api route.
         this.#app.use(AllRoutes);    // Set web route.
+        // this.#app.use((err, req, res, next) => {
+        //     try {
 
+        //     } catch (error) {
+        //         next(error);    // Next error
+        //     };
+        // });
     };
 
 
