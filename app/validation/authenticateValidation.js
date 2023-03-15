@@ -57,6 +57,19 @@ const registerValidation = () => {
 
 
 
+const loginValidation = () => {
+    return [
+        check('userName')
+            .notEmpty().withMessage('Require userName'),
+
+        check('password')
+            .notEmpty().withMessage('Require password')
+    ]
+}
 
 
-module.exports = { registerValidation };
+
+module.exports = {
+    registerValidation,
+    loginValidation
+};
