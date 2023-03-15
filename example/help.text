@@ -2,6 +2,9 @@ Project Manager:
     1-Authorization
         Login
         Register
+            firstName, lastName, phoneNumber, email, password
+            validation
+            unique
         ResetPassword
     2-teams
         Create teams
