@@ -1,4 +1,5 @@
 const { validationData } = require("../../../modules/validationData");
+const { User } = require("../../../models/user");
 
 
 module.exports = new class Authentication {
@@ -6,8 +7,13 @@ module.exports = new class Authentication {
     async register(req, res, next) {
         try {
             const { firstName, lastName, userName, phoneNumber, email, password } = req.body;
-            const valid = await validationData(req);
-            if(!valid.success) return res.status(400).json(valid) 
+            
+            const valid = await validationData(req);    // Validation data.
+            if(!valid.success) return res.status(400).json(valid);
+
+
+
+
         } catch (error) {
             next(error);
         };

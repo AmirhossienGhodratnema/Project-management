@@ -8,9 +8,9 @@ const UserSchema = new mongoose.Schema({
     phoneNumber: { type: String, require: true, unique: true },
     email: { type: String, require: true, unique: true },
     password: { type: String, require: true },
-    rols: { type: String, default: ['USER'] },
-    skills: { type: String, default: [] },
-    teams: { type: String, default: [] },
+    rols: { type: [String], default: ['USER'] },
+    skills: { type: [String], default: [] },
+    teams: { type: [mongoose.Types.ObjectId], default: [] },
 }, { timestamps: true });
 
 
