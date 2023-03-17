@@ -1,7 +1,7 @@
 const { User } = require("../../../models/user");
-const { hashPassword } = require("../../../modules/golobal");
+const { hashPassword, createToken } = require("../../../modules/golobal");
 const { validationData } = require("../../../modules/validationData");
-const bcrypt = require('bcrypt')
+const { compareSync } = require('bcrypt')
 
 module.exports = new class Authentication {
     // Register user.
@@ -42,10 +42,15 @@ module.exports = new class Authentication {
             const user = await User.findOne({ userName });    // Get user.
             if (!user) throw { statusCode: 401, message: 'The username or password is incorrect' };
 
-            const comparePassword = bcrypt.compareSync(password, user.password);    // check password with password in DB
+            const comparePassword = compareSync(password, user.password);    // check password with password in DB
             if (!comparePassword) throw { statusCode: 401, message: 'The username or password is incorrect' };
 
-            
+
+            // Create token
+            const token = await createToken(userName);
+            console.log('Create token authController:', token);
+
+
             return res.json(user)
         } catch (error) {
             next(error);
