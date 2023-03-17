@@ -1,6 +1,8 @@
 Project Manager:
     1-Authorization
         Login
+            Username password login
+            Return jwt token
         Register
             firstName, lastName, phoneNumber, email, password
             validation

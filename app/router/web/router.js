@@ -1,10 +1,16 @@
 const route = require('express').Router();
 
+const { checkLoginMD } = require('../../middleware/authentication');
 // My require routes
-const { AuthenticationRoute } = require('./authentication');
 const { ProjectRoute } = require('./project');
 const { TeamRoute } = require('./team');
 const { UserRoute } = require('./user');
+
+
+
+// Middlewares
+const { AuthenticationRoute } = require('./authentication');
+
 
 
 route.get('/', (req, res, next) => {
@@ -16,7 +22,7 @@ route.get('/', (req, res, next) => {
 route.use('/auth', AuthenticationRoute);    // Authentication routes.
 route.use('/project', ProjectRoute);    // Project routes.
 route.use('/team', TeamRoute);    // Team routes.
-route.use('/user', UserRoute);    // User routes.
+route.use('/user', checkLoginMD, UserRoute);    // User routes.
 
 
 

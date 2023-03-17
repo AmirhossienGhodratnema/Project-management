@@ -1,5 +1,5 @@
 const { genSaltSync, hashSync } = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const { sign, verify } = require('jsonwebtoken');
 
 // Hashing password befor save to DB.
 const hashPassword = async (password) => {
@@ -11,13 +11,18 @@ const hashPassword = async (password) => {
 
 // Create token with jwt.
 const createToken = async (userName) => {
-    // const token = jwt.sign(userName, process.env.JSON_WEBTOKEN_SECURECODE)
-    let token = jwt.sign({ userName }, process.env.JSON_WEBTOKEN_SECURECODE, { expiresIn: '1h' });
+    let token = sign({ userName }, process.env.JSON_WEBTOKEN_SECURECODE, { expiresIn: '1h' });
     return token
+}
+
+const verifyJwtToken = async (token) => {
+    const result = await verify(token, process.env.JSON_WEBTOKEN_SECURECODE);
+    return result;
 }
 
 
 module.exports = {
     hashPassword,
     createToken,
+    verifyJwtToken,
 };
