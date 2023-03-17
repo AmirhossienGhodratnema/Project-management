@@ -45,11 +45,11 @@ module.exports = new class Authentication {
             const comparePassword = compareSync(password, user.password);    // check password with password in DB
             if (!comparePassword) throw { statusCode: 401, message: 'The username or password is incorrect' };
 
+            const token = await createToken(userName);    // Create token.
 
-            // Create token
-            const token = await createToken(userName);
-            console.log('Create token authController:', token);
-
+            // Save token in DB.
+            user.token = token;
+            await user.save();
 
             return res.json(user)
         } catch (error) {
