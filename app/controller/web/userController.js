@@ -1,7 +1,7 @@
 module.exports = new class UserController {
     getProfile(req, res, next) { 
         try {
-            return res.json('getProfile in userController.js');  
+            return res.json(req.user);  
         } catch (error) {
             next(error);
         };

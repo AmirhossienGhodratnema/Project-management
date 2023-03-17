@@ -1,4 +1,3 @@
-const { verify } = require('jsonwebtoken');
 const { User } = require('../models/user');
 const { verifyJwtToken } = require('../modules/golobal');
 
@@ -17,7 +16,6 @@ const checkLoginMD = async (req, res, next) => {
     } catch (error) {
         next(error);
     };
-
 };
 
 

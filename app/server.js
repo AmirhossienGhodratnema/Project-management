@@ -47,20 +47,11 @@ module.exports = class Application {
         mongoose.connect(DB_URL, console.log(`Connect db successfull to: ${process.env.DB_CONNECT}...`));    // Connect to mongodb.
     };
 
-
     // Create route to web and api.
     createRoute() {
         this.#app.use(ApiRoute);    // Set api route.
         this.#app.use(AllRoutes);    // Set web route.
-        // this.#app.use((err, req, res, next) => {
-        //     try {
-
-        //     } catch (error) {
-        //         next(error);    // Next error
-        //     };
-        // });
     };
-
 
     // Error handler full.
     errorHandler() {
