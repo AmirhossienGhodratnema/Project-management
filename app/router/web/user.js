@@ -1,10 +1,11 @@
 const route = require('express').Router();
-const { getProfile } = require('../../controller/web/userController');
+const { getProfile, editProfile } = require('../../controller/web/userController');
 
 
 // Middlewares
 const { checkLoginMD } = require('../../middleware/authentication');
 
-route.post('/profile', getProfile)
+route.post('/profile', getProfile);
+route.post('/editProfile', editProfile);
 
 module.exports = { UserRoute: route };

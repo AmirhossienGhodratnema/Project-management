@@ -5,7 +5,7 @@ const { verifyJwtToken } = require('../modules/golobal');
 const checkLoginMD = async (req, res, next) => {
     try {
         const token = req?.body?.token || req?.query?.token || req?.headers['x-access-token'];    // Receive tokens from Headria Body or query. 
-        const autorizationError = { statusCode: 401, message: 'Please logIn to your account' }    // Error message.
+        const autorizationError = { statusCode: 401, message: 'Please logIn to your account' };    // Error message.
         if (!token) throw autorizationError;    // Checking the existence of the token   
         const verifyToken = await verifyJwtToken(token);    // Verify token.    
         const { userName } = verifyToken;    // Get userName from token.
@@ -17,6 +17,5 @@ const checkLoginMD = async (req, res, next) => {
         next(error);
     };
 };
-
 
 module.exports = { checkLoginMD };

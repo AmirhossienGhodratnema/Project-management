@@ -11,7 +11,7 @@ const hashPassword = async (password) => {
 
 // Create token with jwt.
 const createToken = async (userName) => {
-    let token = sign({ userName }, process.env.JSON_WEBTOKEN_SECURECODE, { expiresIn: '1h' });
+    let token = sign({ userName }, process.env.JSON_WEBTOKEN_SECURECODE, { expiresIn: '365d' });
     return token
 }
 
