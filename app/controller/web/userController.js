@@ -59,12 +59,12 @@ module.exports = new class UserController {
             const filePath = await req?.file.path.substring(46);    // Get save address file
             const user = await User.updateOne({ _id: userId }, { $set: { profileImage: filePath } });    // Update profileImage field
             if (user.modifiedCount == 0) throw { statusCode: 400, message: 'Update failed. Please try again' };    // Error update failed
-            const profile = await getProfileUser(req);
-            console.log('Profile', profile);
+            const profile = await getProfileUser(req);    // Get profile image
             return res.status(200).json({
                 statusCode: 200,
                 success: true,
                 message: 'The update was done successfully',
+                profile
             });
         } catch (error) {
             next(error);
