@@ -1,5 +1,8 @@
 const { genSaltSync, hashSync } = require('bcrypt');
 const { sign, verify } = require('jsonwebtoken');
+const path = require('path');
+const fs = require('fs');
+
 
 // Hashing password befor save to DB.
 const hashPassword = async (password) => {
@@ -21,8 +24,20 @@ const verifyJwtToken = async (token) => {
 }
 
 
+const createUploadPath = () => {
+    const d = new Date();
+    const Year = d.getFullYear() + '';
+    const Month = d.getMonth() + '';
+    const Day = d.getDate() + '';
+    const uploadPath = path.join(__dirname, '..', 'public', 'uploads', Year, Month, Day);
+    fs.mkdirSync(uploadPath, { recursive: true });
+    return uploadPath;
+};
+
+
 module.exports = {
     hashPassword,
     createToken,
     verifyJwtToken,
+    createUploadPath,
 };
