@@ -35,9 +35,15 @@ const createUploadPath = () => {
 };
 
 
+const getProfileUser = async (req) => {
+    return req.protocol + '://' + req.get('host') + '/' + (req.user.profileImage.replace(/[\\]/gim, '/'));
+}
+
+
 module.exports = {
     hashPassword,
     createToken,
     verifyJwtToken,
     createUploadPath,
+    getProfileUser
 };

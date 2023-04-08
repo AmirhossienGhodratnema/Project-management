@@ -1,5 +1,11 @@
 const { User } = require("../../models/user");
+
+// My module
+const { getProfileUser } = require("../../modules/golobal");
+
+// Validation
 const { validationData } = require("../../modules/validationData");
+
 
 module.exports = new class UserController {
     // Get profile user.
@@ -48,14 +54,13 @@ module.exports = new class UserController {
         try {
             const valid = await validationData(req, next);    // Validation data.
             if (valid) return res.status(400).json(valid);
-
-            console.log('valida in userController', valid);
-
             const userId = req.user._id;    // Get userId;
             if (Object.keys(req?.file).length == 0) throw { statusCode: 400, message: 'File is not defiend...' };    // Error not fine file
             const filePath = await req?.file.path.substring(46);    // Get save address file
             const user = await User.updateOne({ _id: userId }, { $set: { profileImage: filePath } });    // Update profileImage field
             if (user.modifiedCount == 0) throw { statusCode: 400, message: 'Update failed. Please try again' };    // Error update failed
+            const profile = await getProfileUser(req);
+            console.log('Profile', profile);
             return res.status(200).json({
                 statusCode: 200,
                 success: true,
