@@ -37,6 +37,12 @@ const createUploadPath = () => {
 
 const getProfileUser = async (req) => {
     return req.protocol + '://' + req.get('host') + '/' + (req.user.profileImage.replace(/[\\]/gim, '/'));
+};
+
+const uploadImageURL = async (req) => {
+    if (Object.keys(req.file).length == 0) throw { statusCode: 400, message: 'File is not defiend...' };
+    const filePath = await req?.file.path.substring(46);    // Get save address file
+    return filePath;
 }
 
 
@@ -45,5 +51,6 @@ module.exports = {
     createToken,
     verifyJwtToken,
     createUploadPath,
-    getProfileUser
+    getProfileUser,
+    uploadImageURL
 };
