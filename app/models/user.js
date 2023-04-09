@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
     skills: { type: [String], default: [] },
     teams: { type: [mongoose.Types.ObjectId], default: [] },
     token: { type: String, default: '' },
-}, { timestamps: true });
+}, { timestamps: true , virtuals : true });
 
 
 const User = mongoose.model('User', UserSchema);

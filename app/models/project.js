@@ -9,7 +9,7 @@ const ProjectSchema = new mongoose.Schema({
     team: { type: mongoose.Types.ObjectId },
     private: { type: Boolean, default: true },
     tags: { type: [String], default: [] },
-}, { timestamps: true });
+}, { timestamps: true, virtuals: true });
 
 
 const Project = mongoose.model('Project', ProjectSchema);
