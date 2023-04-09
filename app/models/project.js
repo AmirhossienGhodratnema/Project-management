@@ -8,7 +8,7 @@ const ProjectSchema = new mongoose.Schema({
     owner: { type: mongoose.Types.ObjectId, require: true },
     team: { type: mongoose.Types.ObjectId },
     private: { type: Boolean, default: true },
-
+    tags: { type: [String], default: [] },
 }, { timestamps: true });
 
 
