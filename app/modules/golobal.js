@@ -3,7 +3,6 @@ const { sign, verify } = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
 
-
 // Hashing password befor save to DB.
 const hashPassword = async (password) => {
     const salt = genSaltSync(10);
@@ -43,8 +42,9 @@ const uploadImageURL = async (req) => {
     if (Object.keys(req.file).length == 0) throw { statusCode: 400, message: 'File is not defiend...' };
     const filePath = await req?.file.path.substring(46);    // Get save address file
     return filePath;
-}
+};
 
+    
 
 module.exports = {
     hashPassword,

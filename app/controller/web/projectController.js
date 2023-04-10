@@ -76,10 +76,29 @@ module.exports = new class ProjectController {
             next(error);
         };
     };
+
+    async removeProject(req, res, next) {
+        try {
+            const valid = await validationData(req);    // Validation
+            if (valid) return res.status(400).json(valid);
+            
+            const owner = req.user._id;    // Get owner
+            const projectId = req.params.id;    // Project id from params
+            const project = await Project.findOneAndDelete({ owner, _id: projectId });    // Find project width id
+            if (!project) throw { statusCode: 400, message: 'The delete operation failed' };
+            return res.status(200).json({
+                statusCode: 200,
+                success: true,
+                message: 'The removal operation was done successfully',
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
     getProjectByOfTeam() { };
     getProjectOfUser() { };
     updateProject() { };
-    removeProject() { };
 
 
 
