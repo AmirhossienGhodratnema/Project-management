@@ -21,7 +21,7 @@ route.get('/', (req, res, next) => {
 
 route.use('/auth', AuthenticationRoute);    // Authentication routes.
 route.use('/project', checkLoginMD, ProjectRoute);    // Project routes.
-route.use('/team', TeamRoute);    // Team routes.
+route.use('/team', checkLoginMD, TeamRoute);    // Team routes.
 route.use('/user', checkLoginMD, UserRoute);    // User routes.
 
 
