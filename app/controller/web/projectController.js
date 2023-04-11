@@ -1,7 +1,6 @@
 const { Project } = require("../../models/project");
 const { uploadImageURL } = require("../../modules/golobal");
 const { validationData } = require("../../modules/validationData");
-const project = require("../../router/web/project");
 
 
 module.exports = new class ProjectController {
@@ -81,11 +80,11 @@ module.exports = new class ProjectController {
         try {
             const valid = await validationData(req);    // Validation
             if (valid) return res.status(400).json(valid);
-            
+
             const owner = req.user._id;    // Get owner
             const projectId = req.params.id;    // Project id from params
             const project = await Project.findOneAndDelete({ owner, _id: projectId });    // Find project width id
-            if (!project) throw { statusCode: 400, message: 'The delete operation failed' };
+            if (!project) throw { statusCode: 400, message: 'The delete operation failed' };    // Error delete failed
             return res.status(200).json({
                 statusCode: 200,
                 success: true,
@@ -96,9 +95,42 @@ module.exports = new class ProjectController {
         }
     };
 
+    async updateProject(req, res, next) {
+        try {
+            const owner = req.user._id;
+            const projectId = req.params.id;
+            const valid = await validationData(req);    // Validation
+            if (valid) return res.status(400).json(valid);
+            const project = await Project.findOne({ owner, _id: projectId });
+            if (!project) throw { statusCode: 400, message: 'There is no project' }    // Cehck there is project
+            const data = { ...req.body };
+            Object.entries(data).forEach(([key, value]) => {
+                if (!['title', 'description', 'tags'].includes(key)) delete data[key];
+                if (['', ' ', 0, NaN, undefined, null].includes(value)) delete data[key];
+                if (key === 'tags' && data['tags'].constructor === Array) {
+                    data['tags'] == data['tags'].filter(val => {
+                        if (['', ' ', 0, undefined, null, NaN].includes(val)) return val;
+                    });
+                    if (data['tags'].length == 0) delete data['tags'];
+                };
+            });
+            console.log(data)
+            const updateResult = await Project.updateOne({ _id: projectId }, { $set: { data } });
+            console.log(updateResult)
+            if (updateResult.modifiedCount == 0) throw { statusCode: 400, message: 'Update failed. Please try again' };    // Check update update project
+            return res.status(200).json({
+                statusCode: 200,
+                success: true,
+                message: 'The update was done successfully'
+            });
+        } catch (error) {
+            next(error);
+        };
+    };
+
+
     getProjectByOfTeam() { };
     getProjectOfUser() { };
-    updateProject() { };
 
 
 

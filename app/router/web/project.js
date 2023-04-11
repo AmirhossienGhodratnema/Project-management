@@ -1,7 +1,7 @@
 const route = require('express').Router();
 
 // Controllers
-const { createProject, uploadProjectImage, getAllPeoject, getProjectById, removeProject } = require('../../controller/web/projectController');
+const { createProject, uploadProjectImage, getAllPeoject, getProjectById, removeProject, updateProject } = require('../../controller/web/projectController');
 const { uploadProfile } = require('../../controller/web/userController');
 const { upload_multer } = require('../../modules/multer');
 
@@ -15,6 +15,9 @@ route.post('/uploadImageProject', upload_multer.single('image'), uploadProjectIm
 route.post('/getAllProject', getAllPeoject);
 route.post('/:id', getProjectById);
 route.post('/remove/:id', mongoIdCheck(), removeProject);
+route.put('/update/:id', mongoIdCheck(), updateProject);
+
+
 
 
 module.exports = { ProjectRoute: route };
