@@ -109,7 +109,6 @@ module.exports = new class ProjectController {
                 if (['', ' ', 0, NaN, null, undefined].includes(value)) delete data[key];    // Check for invalid values
                 if (key == 'tags' && data['tags'].constructor === Array) {
                     data['tags'] = data['tags'].filter(val => {
-                        console.log('val',val)
                         if (!['', ' ', 0, null, undefined, NaN].includes(val)) return val;    // Check for invalid values in the array
                     });
                     if (data['tags'].length == 0) delete data['tags'];    // Check epty tags field array
@@ -127,6 +126,30 @@ module.exports = new class ProjectController {
             next(error);
         };
     };
+
+
+    async updateProjectImate(req, res, next) {
+        try {
+
+            // const valid = await validationData(req, next);    // Validation data.
+            // if (valid) return res.status(400).json(valid);
+            const owner = req.user._id;    // Get userId;
+            const projectId = req.params.id;
+            console.log(projectId)
+            if (Object.keys(req?.file).length == 0) throw { statusCode: 400, message: 'File is not defiend...' };    // Error not fine file
+            const filePath = await req?.file.path.substring(46);    // Get save address file
+            const project = await Project.updateOne({ owner, _id: projectId }, { $set: { image: filePath } });    // Update project image
+            if (project.modifiedCount == 0) throw { statusCode: 400, message: 'Update failed. Please try again' };    // Error update failed
+            return res.status(200).json({
+                statusCode: 200,
+                success: true,
+                message: 'The update was done successfully',
+            });
+        } catch (error) {
+            next(error);
+        };
+    };
+
 
 
     getProjectByOfTeam() { };
