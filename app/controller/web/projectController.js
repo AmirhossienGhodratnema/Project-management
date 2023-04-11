@@ -97,31 +97,31 @@ module.exports = new class ProjectController {
 
     async updateProject(req, res, next) {
         try {
-            const owner = req.user._id;
-            const projectId = req.params.id;
+            const owner = req.user._id;    // Get owner id
+            const projectId = req.params.id;    // Get project id
             const valid = await validationData(req);    // Validation
-            if (valid) return res.status(400).json(valid);
-            const project = await Project.findOne({ owner, _id: projectId });
-            if (!project) throw { statusCode: 400, message: 'There is no project' }    // Cehck there is project
-            const data = { ...req.body };
+            if (valid) return res.status(400).json(valid);    // Error validation
+            const project = await Project.findOne({ owner, _id: projectId });    // Checking the status of the project
+            if (!project) throw { statusCode: 400, message: 'There is not project' };    // Project error not found 
+            const data = req.body;
             Object.entries(data).forEach(([key, value]) => {
-                if (!['title', 'description', 'tags'].includes(key)) delete data[key];
-                if (['', ' ', 0, NaN, undefined, null].includes(value)) delete data[key];
-                if (key === 'tags' && data['tags'].constructor === Array) {
-                    data['tags'] == data['tags'].filter(val => {
-                        if (['', ' ', 0, undefined, null, NaN].includes(val)) return val;
+                if (!['title', 'description', 'tags'].includes(key)) delete data[key];    // Check for additional values
+                if (['', ' ', 0, NaN, null, undefined].includes(value)) delete data[key];    // Check for invalid values
+                if (key == 'tags' && data['tags'].constructor === Array) {
+                    data['tags'] = data['tags'].filter(val => {
+                        console.log('val',val)
+                        if (!['', ' ', 0, null, undefined, NaN].includes(val)) return val;    // Check for invalid values in the array
                     });
-                    if (data['tags'].length == 0) delete data['tags'];
+                    if (data['tags'].length == 0) delete data['tags'];    // Check epty tags field array
                 };
             });
-            console.log(data)
-            const updateResult = await Project.updateOne({ _id: projectId }, { $set: { ...data } });
-            console.log(updateResult)
-            if (updateResult.modifiedCount == 0) throw { statusCode: 400, message: 'Update failed. Please try again' };    // Check update update project
+
+            const updateProject = await Project.updateOne({ _id: projectId }, { $set: { ...data } });    // Update project
+            if (updateProject.modifiedCount == 0) throw { statusCode: 400, message: 'Update failed. Please try again' };    // Check update project
             return res.status(200).json({
                 statusCode: 200,
                 success: true,
-                message: 'The update was done successfully'
+                message: 'The project was updated successfully'
             });
         } catch (error) {
             next(error);
