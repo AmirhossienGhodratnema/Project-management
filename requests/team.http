@@ -1,0 +1,7 @@
+get http://localhost:8000
+# Authorization: Bearer {{'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFtaXIiLCJpYXQiOjE2NzkwNTg5NDQsImV4cCI6MTcxMDU5NDk0NH0.VHPL0kq_ZiegEUVnEUyGj6IsPMlxRZBhhm6EzTurVdU}}
+Content-Type: application/json
+
+{
+    name : 'Amirhossein'
+}
