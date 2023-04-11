@@ -115,7 +115,7 @@ module.exports = new class ProjectController {
                 };
             });
             console.log(data)
-            const updateResult = await Project.updateOne({ _id: projectId }, { $set: { data } });
+            const updateResult = await Project.updateOne({ _id: projectId }, { $set: { ...data } });
             console.log(updateResult)
             if (updateResult.modifiedCount == 0) throw { statusCode: 400, message: 'Update failed. Please try again' };    // Check update update project
             return res.status(200).json({
