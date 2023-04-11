@@ -1,9 +1,15 @@
 const { Project } = require("../../models/project");
 const { uploadImageURL } = require("../../modules/golobal");
 const { validationData } = require("../../modules/validationData");
+const autoBind = require('auto-bind');
 
 
 module.exports = new class ProjectController {
+    constructor() {
+        autoBind(this)
+    };
+
+
     async createProject(req, res, next) {
         try {
             const valid = await validationData(req);    // Validation
@@ -24,7 +30,6 @@ module.exports = new class ProjectController {
     };
 
 
-
     async uploadProjectImage(req, res, next) {
         try {
             const { id } = req.body;    // Destructuring data userID
@@ -41,6 +46,7 @@ module.exports = new class ProjectController {
             next(error);
         };
     };
+
 
     async getAllPeoject(req, res, next) {
         try {
@@ -59,6 +65,7 @@ module.exports = new class ProjectController {
         }
     };
 
+
     async getProjectById(req, res, next) {
         try {
             const owner = req.user._id;    // Get owner
@@ -75,6 +82,7 @@ module.exports = new class ProjectController {
             next(error);
         };
     };
+
 
     async removeProject(req, res, next) {
         try {
@@ -95,6 +103,7 @@ module.exports = new class ProjectController {
         }
     };
 
+
     async updateProject(req, res, next) {
         try {
             const owner = req.user._id;    // Get owner id
@@ -114,7 +123,6 @@ module.exports = new class ProjectController {
                     if (data['tags'].length == 0) delete data['tags'];    // Check epty tags field array
                 };
             });
-
             const updateProject = await Project.updateOne({ _id: projectId }, { $set: { ...data } });    // Update project
             if (updateProject.modifiedCount == 0) throw { statusCode: 400, message: 'Update failed. Please try again' };    // Check update project
             return res.status(200).json({
@@ -130,9 +138,6 @@ module.exports = new class ProjectController {
 
     async updateProjectImate(req, res, next) {
         try {
-
-            // const valid = await validationData(req, next);    // Validation data.
-            // if (valid) return res.status(400).json(valid);
             const owner = req.user._id;    // Get userId;
             const projectId = req.params.id;
             console.log(projectId)
