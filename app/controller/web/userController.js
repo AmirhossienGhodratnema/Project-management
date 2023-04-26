@@ -72,6 +72,16 @@ module.exports = new class UserController {
     };
 
 
+    async getAllRequest(req, res, next) {
+        try {
+            const userID = req.user._id;
+            const { inviteRequest } = await User.findOne({ _id: userID });
+            return res.json(inviteRequest);
+        } catch (error) {
+            next(error);
+        };
+    };
+
     addSkills() { };
     editEkills() { };
     acceotInviteTeam() { };
