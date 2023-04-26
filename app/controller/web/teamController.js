@@ -42,43 +42,34 @@ module.exports = new class TeamController {
 
             const team = await this.findUserInTeam(user, teamID);    // Check team existence 
             if (!team) throw { statusCode: 400, message: 'There is no such team' };    // Error check team existance
-
             const userName = await User.findOne({ userName: username });    // Check username existance
             if (!userName) throw { statusCode: 400, message: 'There is no such user' };    // Error check user existance
-
-            const invite = await this.findUserInTeam(userName._id, teamID);
-            if (invite) throw { statusCode: 400, message: 'There is a team user' };
-
-            console.log(userName.inviteRequest)
-            await userName.inviteRequest.forEach(item => {
-                console.log('item', item)
+            const invite = await this.findUserInTeam(userName._id, teamID);    // Check invite to team
+            if (invite) throw { statusCode: 400, message: 'There is a team user' };    // Error Check invite to team
+            await userName.inviteRequest.forEach(item => {    // Check dublicate request
                 if (item.teamID == teamID && item.caller == userName) throw { statusCode: 400, message: 'request dublicate' };
             });
-
-            const request = {
+            const request = {    // Create inviteRequest
                 caller: req.user.userName,
                 requestDate: new Date(),
                 teamID,
                 status: 'pending'
             };
-
-
-
-            const idUserName = userName._id
-            const userUpdateResult = await User.updateOne({ _id: idUserName }, { $push: { inviteRequest: request } });
-            if (userUpdateResult.modifiedCount == 0) throw { statusCode: 500, message: 'There was a problem registering the invitation request' };
-
-
+            const idUserName = userName._id    // Getting the ID of the person we invite
+            const userUpdateResult = await User.updateOne({ _id: idUserName }, { $push: { inviteRequest: request } });    //  Update user
+            if (userUpdateResult.modifiedCount == 0) throw { statusCode: 500, message: 'There was a problem registering the invitation request' };    // Error check update user
             return res.status(200).json({
                 statusCode: 200,
                 success: true,
                 message: 'The registration request has been successfully submitted',
             });
-
         } catch (error) {
             next(error);
         };
     };
+
+
+   
 
 
 
