@@ -7,7 +7,7 @@ const TeamSchema = new mongoose.Schema({
     userName: { type: String, require: true, unique: true },
     users: { type: [mongoose.Types.ObjectId], default: [] },
     owner: { type: mongoose.Types.ObjectId, require: true, default: ['USER'] },
-}, { timestamps: true });
+}, { timestamps: true, virtuals: true });
 
 
 const Team = mongoose.model('Team', TeamSchema);
