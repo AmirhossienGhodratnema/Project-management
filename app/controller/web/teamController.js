@@ -35,6 +35,49 @@ module.exports = new class TeamController {
     };
 
 
+    async getTeamId(req, res, next) {
+        try {
+            const { id } = req.body;
+            const team = await Team.aggregate([
+                {
+                    $match: { name: 'Developer teama' }
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'owner',
+                        foreignField: '_id',
+                        as: 'owner'
+                    }
+                },
+                {
+                    $unwind: '$owner'
+                },
+                {
+                    $project: {
+                        'owner.rols': 0,
+                        'owner.password': 0,
+                        'owner.skills': 0,
+                        'owner.phoneNumber': 0,
+                        'owner.email': 0,
+                        'owner.teams': 0,
+                        'owner.skills': 0,
+                        'owner.createdAt': 0,
+                        'owner.updatedAt': 0,
+                        'owner.token': 0,
+                        'owner.profileImag': 0,
+                        
+                    }
+                }
+            ])
+            return res.json({
+                team,
+            });
+        } catch (error) {
+            next(error);
+        };
+    };
+
     async inviteUserToTeam(req, res, next) {
         try {
             const user = req.user._id;    // Owner id
@@ -69,7 +112,7 @@ module.exports = new class TeamController {
     };
 
 
-   
+
 
 
 
